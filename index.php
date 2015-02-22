@@ -356,6 +356,10 @@ class OGraphr_Core {
 			// Gets the post's content
 			$post_array = get_post($post_id); 
 			$markup = $post_array->post_content;
+			$meta = get_post_meta($post_id, '_x_audio_embed'); //Gets the Soundcloud-embed from the custom field
+			if(! empty($x_meta)){
+				$markup .= stripslashes(htmlspecialchars_decode($meta[0])); //If there's any embed, it's applied to the markup-variable
+			}
 			$markup = apply_filters('the_content',$markup);
 
 			// Get default website thumbnail
@@ -1995,6 +1999,10 @@ class OGraphr_Core {
 
 		$post_array = get_post($post_id); 
 		$markup = $post_array->post_content;
+		$x_meta = get_post_meta($post_id, '_x_audio_embed'); //Gets the Soundcloud-embed from the custom field
+		if(! empty($x_meta)){
+			$markup .= stripslashes(htmlspecialchars_decode($x_meta[0])); //If there's any embed, it's applied to the markup-variable
+		}
 		$markup = apply_filters('the_content',$markup);	
 
 		$widget_thumbnails = $core->get_widget_thumbnails($markup);
